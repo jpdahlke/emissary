@@ -14,9 +14,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: ['8', '11.0.15', '11']
+        java: ['8', '11']
         experimental: [false]
         include:
+          - java: '11.0.15.9'
+            experimental: false
           - java: '15'
             experimental: true
           - java: '16'
