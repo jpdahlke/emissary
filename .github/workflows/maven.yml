@@ -34,7 +34,8 @@ jobs:
     - name: Configure Java & Maven
       uses: actions/setup-java@v3
       with:
-        java-version: '11.0.4'
+        java-version: '${{ matrix.java }}'
+        cache: maven
         distribution: 'corretto'
 
     - name: Build with Maven
