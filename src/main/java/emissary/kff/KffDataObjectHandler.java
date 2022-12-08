@@ -75,9 +75,11 @@ public class KffDataObjectHandler {
      * Compute the configured hashes and return as a map. Also include entries indicating the known file or duplicate file
      * status if so configured
      * 
-     * @param data the bytes to hash
-     * @param name th name of the data (for reporting)
+     * @param sbcf the data to hash
+     * @param name the name of the data (for reporting)
      * @return parameter entries suitable for a BaseDataObject
+     * @throws IOException if the data can't be read
+     * @throws NoSuchAlgorithmException if the checksum can't be computed
      */
     public Map<String, String> hashData(byte[] data, String name) {
         return hashData(data, name, "");

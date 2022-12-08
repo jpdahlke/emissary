@@ -21,8 +21,6 @@ public class KffHashPlace extends ServiceProviderPlace {
 
     public static final String SKIP_KFF_HASH = "SKIP_KFF_HASH";
 
-    private boolean useSbc = false;
-
     public KffHashPlace(String thePlaceLocation) throws IOException {
         super(thePlaceLocation);
     }
@@ -50,7 +48,6 @@ public class KffHashPlace extends ServiceProviderPlace {
     @Override
     protected void setupPlace(String theDir, String placeLocation) throws IOException {
         super.setupPlace(theDir, placeLocation);
-        useSbc = configG.findBooleanEntry("USE_SBC", useSbc);
         initKff();
     }
 

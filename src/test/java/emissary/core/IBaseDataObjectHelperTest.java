@@ -1,6 +1,7 @@
 package emissary.core;
 
 import emissary.core.channels.InMemoryChannelFactory;
+import emissary.core.channels.SeekableByteChannelFactory;
 import emissary.kff.KffDataObjectHandler;
 import emissary.parser.SessionParser;
 import emissary.test.core.junit5.UnitTest;

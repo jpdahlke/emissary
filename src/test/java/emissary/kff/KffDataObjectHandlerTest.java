@@ -83,7 +83,7 @@ class KffDataObjectHandlerTest extends UnitTest {
     }
 
     @Test
-    void testMapWithEmptyPrefix() {
+    void testMapWithEmptyPrefix() throws NoSuchAlgorithmException, IOException {
         Map<String, String> m = kff.hashData(DATA, "junk");
         assertNotNull(m.get(KffDataObjectHandler.KFF_PARAM_MD5), "Empty prefix returns normal values");
 
@@ -94,7 +94,7 @@ class KffDataObjectHandlerTest extends UnitTest {
     }
 
     @Test
-    void testMapWithNullPrefix() {
+    void testMapWithNullPrefix() throws NoSuchAlgorithmException, IOException {
         Map<String, String> m = kff.hashData(DATA, "junk", null);
         assertNotNull(m.get(KffDataObjectHandler.KFF_PARAM_MD5), "Null prefix returns normal values");
 
@@ -105,7 +105,7 @@ class KffDataObjectHandlerTest extends UnitTest {
     }
 
     @Test
-    void testMapWithPrefix() {
+    void testMapWithPrefix() throws NoSuchAlgorithmException, IOException {
         Map<String, String> m = kff.hashData(DATA, "name", "foo");
         assertNotNull(m.get("foo" + KffDataObjectHandler.KFF_PARAM_MD5), "Prefix prepends on normal key names but we got " + m.keySet());
 
@@ -268,6 +268,7 @@ class KffDataObjectHandlerTest extends UnitTest {
 
     @Test
     void testRemovingHash() {
+<<<<<<< HEAD
         final SeekableByteChannelFactory exceptionSbcf = () -> new AbstractSeekableByteChannel() {
             @Override
             protected void closeImpl() {
@@ -319,5 +320,4 @@ class KffDataObjectHandlerTest extends UnitTest {
     void testEmptySbcf() {
         assertEquals(new HashMap<>(), kff.hashData(SeekableByteChannelHelper.EMPTY_CHANNEL_FACTORY, null));
     }
-
 }
