@@ -21,9 +21,10 @@ jobs:
         with:
           # Full git history is needed to get a proper list of changed files within super-linter
           fetch-depth: 0
+          ref: refs/heads/${{ github.head_ref }}
 
       - name: Lint Code Base
-        uses: super-linter/super-linter/slim@v5.2.1
+        uses: github/super-linter/slim@v4.10.0
         env:
           LOG_LEVEL: NOTICE
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
