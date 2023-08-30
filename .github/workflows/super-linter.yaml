@@ -21,7 +21,15 @@ jobs:
         with:
           # Full git history is needed to get a proper list of changed files within super-linter
           fetch-depth: 0
+        if: github.event_name != 'pull_request'
+
+      - name: Checkout PR Code
+        uses: actions/checkout@v3.3.0
+        with:
+          # Full git history is needed to get a proper list of changed files within super-linter
+          fetch-depth: 0
           ref: refs/heads/${{ github.head_ref }}
+        if: github.event_name == 'pull_request'
 
       - name: Lint Code Base
         uses: github/super-linter/slim@v4.10.0
