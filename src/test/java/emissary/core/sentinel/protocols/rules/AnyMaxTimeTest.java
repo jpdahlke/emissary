@@ -4,11 +4,14 @@ import emissary.core.sentinel.protocols.Protocol;
 import emissary.pool.AgentPool;
 import emissary.test.core.junit5.UnitTest;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -61,47 +64,47 @@ class AnyMaxTimeTest extends UnitTest {
         assertFalse(rule.overTimeLimit(placeAgentStats));
     }
 
-    @Test
-    void condition() {
+    @Nested
+    class ConditionTest extends UnitTest {
 
-        Protocol.PlaceAgentStats lowerStats = new Protocol.PlaceAgentStats("ToLowerPlace");
-        lowerStats.update(1);
-        lowerStats.update(3);
-        lowerStats.update(4);
-
-        Protocol.PlaceAgentStats upperStats = new Protocol.PlaceAgentStats("ToUpperPlace");
-        upperStats.update(2);
-        upperStats.update(5);
-
+        List<Protocol.PlaceAgentStats> placeStats = new ArrayList<>();
         AgentPool pool = mock(AgentPool.class);
 
-        try (MockedStatic<AgentPool> agentPool = Mockito.mockStatic(AgentPool.class)) {
-            agentPool.when(AgentPool::lookup).thenReturn(pool);
+        @Test
+        void condition() {
+            Protocol.PlaceAgentStats lowerStats = new Protocol.PlaceAgentStats("ToLowerPlace");
+            lowerStats.update(1);
+            lowerStats.update(3);
+            lowerStats.update(4);
 
-            Rule rule = new AnyMaxTime("rule1", "To(?:Lower|Upper)Place", 5, 1.0);
-            when(pool.getCurrentPoolSize()).thenReturn(5);
-            assertTrue(rule.condition(List.of(lowerStats, upperStats)));
-            when(pool.getCurrentPoolSize()).thenReturn(6);
-            assertFalse(rule.condition(List.of(lowerStats, upperStats)));
+            Protocol.PlaceAgentStats upperStats = new Protocol.PlaceAgentStats("ToUpperPlace");
+            upperStats.update(2);
+            upperStats.update(5);
 
-            Rule rule2 = new AnyMaxTime("rule1", "To(?:Lower|Upper)Place", 6, 1.0);
-            when(pool.getCurrentPoolSize()).thenReturn(5);
-            assertFalse(rule2.condition(List.of(lowerStats, upperStats)));
-            when(pool.getCurrentPoolSize()).thenReturn(6);
-            assertFalse(rule2.condition(List.of(lowerStats, upperStats)));
+            CollectionUtils.addAll(placeStats, lowerStats);
+            CollectionUtils.addAll(placeStats, upperStats);
 
-            Rule rule3 = new AnyMaxTime("rule1", "ToLowerPlace", 4, 0.5);
-            when(pool.getCurrentPoolSize()).thenReturn(5);
-            assertTrue(rule3.condition(List.of(lowerStats, upperStats)));
+            try (MockedStatic<AgentPool> agentPool = Mockito.mockStatic(AgentPool.class)) {
+                agentPool.when(AgentPool::lookup).thenReturn(pool);
 
-            Rule rule4 = new AnyMaxTime("rule1", "ToLowerPlace", 5, 0.5);
-            when(pool.getCurrentPoolSize()).thenReturn(5);
-            assertFalse(rule4.condition(List.of(lowerStats, upperStats)));
+                assertTrue(checkCondition("To(?:Lower|Upper)Place", 5, 1.0, 5), "One agent should be over max time");
+                assertFalse(checkCondition("To(?:Lower|Upper)Place", 5, 1.0, 6), "Not all agents can be over max time; pool too large");
 
-            Rule rule5 = new AnyMaxTime("rule1", "ToLowerPlace", 4, 0.75);
-            when(pool.getCurrentPoolSize()).thenReturn(5);
-            assertFalse(rule5.condition(List.of(lowerStats, upperStats)));
+                assertFalse(checkCondition("To(?:Lower|Upper)Place", 6, 1.0, 5), "No agents are over max time");
+                assertFalse(checkCondition("To(?:Lower|Upper)Place", 6, 1.0, 6), "No agents are over max time; pool too large");
+
+                assertTrue(checkCondition("ToLowerPlace", 4, .5, 5));
+
+                assertFalse(checkCondition("ToLowerPlace", 5, .5, 5));
+
+                assertFalse(checkCondition("ToLowerPlace", 4, 0.75, 5));
+            }
+        }
+
+        private boolean checkCondition(String pattern, long timeLimit, double threshold, int poolSize) {
+            Rule rule = new AnyMaxTime("TestRule", pattern, timeLimit, threshold);
+            when(pool.getCurrentPoolSize()).thenReturn(poolSize);
+            return rule.condition(placeStats);
         }
     }
-
 }
