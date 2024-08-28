@@ -103,8 +103,6 @@ public class ServerCommand extends ServiceCommand {
             flavorSet.add(f.toUpperCase(Locale.getDefault()));
         }
 
-        ServerModeValidator.validate(getMode());
-
         if (flavorSet.contains("STANDALONE") && flavorSet.contains("CLUSTER")) {
             throw new IllegalArgumentException("Can not run a server in both STANDALONE and CLUSTER");
         } else {
