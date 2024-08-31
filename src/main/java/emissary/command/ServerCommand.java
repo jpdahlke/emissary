@@ -3,6 +3,7 @@ package emissary.command;
 import emissary.client.EmissaryResponse;
 import emissary.command.converter.ModeConverter;
 import emissary.command.converter.ProjectBaseConverter;
+import emissary.command.converter.ServerModeConverter;
 import emissary.directory.EmissaryNode;
 import emissary.server.EmissaryServer;
 import emissary.server.api.Pause;
