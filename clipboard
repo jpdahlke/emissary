@@ -14,3 +14,9 @@ Downloading from nexus: https://repo1.maven.org/maven2/nitro/nitro-imageio/2.6/n
 Downloading from nexus: https://repo1.maven.org/maven2/nitro/nitro-nitf/2.6/nitro-nitf-2.6.pom
 Downloading from nexus: https://repo1.maven.org/maven2/raft/avrofamilytree/0.22.0/avrofamilytree-0.22.0.pom
 
+2025-03-07 13:41:19,017 localhost-8001 ERROR com.burrito.spi.ImageIOClassInitializationProvider -   - Unable to find image processing class com.twelvemonkeys.imageio.plugins.thumbsdb.ThumbsImageReader.Spi
+2025-03-07 13:41:19,018 localhost-8001 ERROR com.burrito.spi.ImageIOClassInitializationProvider -   - Unable to find image processing class com.twelvemonkeys.imageio.plugins.psd.PSDImageReaderSpi
+2025-03-07 13:41:19,018 localhost-8001  INFO emissary.spi.SPILoader -   - Initialized com.burrito.spi.ImageIOClassInitializationProvider
+2025-03-07 13:41:19,019 localhost-8001  INFO emissary.spi.SPILoader -   - Initialized emissary.spi.ClassLocationVerificationProvider
+2025-03-07 13:41:19,128 localhost-8001  INFO emissary.admin.Startup -   - Doing local startup for directory DirectoryPlace(emissary.directory.DirectoryPlace) 
+2025-03-07 13:41:19,219 localhost-8001  WARN emissary.admin.Startup -   - Sorting places found duplicate EsentPlace(com.burrito.transform.EsentPlace), skipping!
