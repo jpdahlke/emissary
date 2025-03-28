@@ -1,3 +1,12 @@
+     92 rule="UnnecessaryFullyQualifiedName"
+     12 rule="UnusedFormalParameter"
+      6 rule="EmptyControlStatement"
+      5 rule="UselessParentheses"
+      3 rule="UnusedPrivateMethod"
+      3 rule="AvoidBranchingStatementAsLastInLoop"
+      2 rule="CollapsibleIfStatements"
+      1 rule="UselessOverridingMethod"
+
 Downloading from nexus: https://repo1.maven.org/maven2/com/bbn/openmap/5.0/openmap-5.0.pom
 Downloading from nexus: https://repo1.maven.org/maven2/com/burrito/javaswf/1.0/javaswf-1.0.pom
 Downloading from nexus: https://repo1.maven.org/maven2/edu/lps/acs/ml/CognativeShieldExtraLight/1.1/CognativeShieldExtraLight-1.1.pom
